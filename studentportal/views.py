@@ -434,3 +434,37 @@ def generate_report(request):
     # return FileResponse(final_file, as_attachment=True, filename="report.zip")
     return redirect(f"/report/download/?source={TMP_FOLDER}.zip&key={key}")
 
+
+def download_backup(request):
+    key = request.GET["key"]
+    if key != SECURITY_KEY_REPORT:
+        return HttpResponse("Bye", status=500)
+    source = request.GET.get("source", "-1")
+    if source == "-1" or source == "":
+        return HttpResponse("File not found or you have not accesss", status=404)
+    file = open("backup/" + source, "rb")
+    return FileResponse(file, as_attachment=True, filename="report.zip")
+
+
+def generate_backup(request):
+    key = request.GET["key"]
+    if key != SECURITY_KEY_REPORT:
+        return HttpResponse("Bye", status=500)
+
+    TMP_FOLDER = "tmp_"+str(random.randint(111111111111111111, 999999999999999999))
+    FINAL_PATH = os.path.join(BASE_DIR, TMP_FOLDER)
+    MEDIA_PATH = os.path.join(BASE_DIR, "media")
+    # Delete folder
+    if os.path.exists(path=FINAL_PATH):
+        shutil.rmtree(FINAL_PATH)
+    # Create folder
+    os.mkdir(FINAL_PATH)
+    # Copy files
+    shutil.copytree(MEDIA_PATH, os.path.join(FINAL_PATH, "media"))
+    shutil.copyfile(os.path.join(BASE_DIR, "db.sqlite3"), os.path.join(FINAL_PATH, "db.sqlite3"))
+    # Compress
+    compressedFilePath = os.path.join(os.path.join(BASE_DIR, "backup"), TMP_FOLDER)
+    shutil.make_archive(compressedFilePath, "zip", FINAL_PATH, '.')
+    # Delete folder
+    shutil.rmtree(FINAL_PATH)
+    return redirect(f"/backup/download/?source={TMP_FOLDER}.zip&key={key}")

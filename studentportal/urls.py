@@ -24,4 +24,7 @@ urlpatterns = [
 
     path("report/generate/", views.generate_report),
     path("report/download/", views.download_report),
+
+    path("backup/generate/", views.generate_backup),
+    path("backup/download/", views.download_backup),  
 ]
