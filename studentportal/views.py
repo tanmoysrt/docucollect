@@ -168,7 +168,7 @@ def profile_page(request):
 def internship_list_page(request):
     data = {
         "title": "Internships Record",
-        "internships": models.JobProfile.objects.filter(type="internship")
+        "internships": models.JobProfile.objects.filter(type="internship", user_id=request.user.id)
     }
     return render(request, "studentportal/internship_list.html", data)
 
@@ -177,7 +177,7 @@ def internship_list_page(request):
 def placement_list_page(request):
     data = {
         "title": "Placements Record",
-        "placements": models.JobProfile.objects.filter(type="placement")
+        "placements": models.JobProfile.objects.filter(type="placement", user_id=request.user.id)
     }
     return render(request, "studentportal/placement_list.html", data)
 
@@ -186,7 +186,7 @@ def placement_list_page(request):
 def hackathon_list_page(request):
     data = {
         "title": "Hackathons Record",
-        "hackathons": models.HackathonProfile.objects.filter()
+        "hackathons": models.HackathonProfile.objects.filter(user_id=request.user.id)
     }
     return render(request, "studentportal/hackathon_list.html", data)
 
@@ -195,7 +195,7 @@ def hackathon_list_page(request):
 def online_course_list_page(request):
     data = {
         "title": "Courses Record",
-        "courses": models.OnlineCoursesProfile.objects.filter()
+        "courses": models.OnlineCoursesProfile.objects.filter(user_id=request.user.id)
     }
     return render(request, "studentportal/onlinecourse_list.html", data)
 
@@ -204,7 +204,7 @@ def online_course_list_page(request):
 def other_docs_list_page(request):
     data = {
         "title": "Other Documents Record",
-        "docs": models.OtherDocuments.objects.all()
+        "docs": models.OtherDocuments.objects.filter(user_id=request.user.id)
     }
     return render(request, "studentportal/otherdocs_list.html", data)
 
