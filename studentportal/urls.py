@@ -26,6 +26,7 @@ urlpatterns = [
     path("delete/", views.delete_record),
 
     path("report/generate/", views.generate_report),
+    path("reportv2/generate/", views.generate_report_v2),
     path("report/download/", views.download_report),
 
     path("backup/generate/", views.generate_backup),

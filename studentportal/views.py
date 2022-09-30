@@ -501,6 +501,89 @@ def generate_report(request):
     return redirect(f"/report/download/?source={TMP_FOLDER}.zip&key={key}")
 
 
+def generate_report_v2(request):
+    key = request.GET["key"]
+    if key != SECURITY_KEY_REPORT:
+        return HttpResponse("Bye", status=500)
+    users = models.StudentAuthProfile.objects.filter(is_superuser=False)
+    TMP_FOLDER = "tmp_" + str(random.randint(111111111111111111, 999999999999999999))
+    FINAL_PATH = os.path.join(BASE_DIR, TMP_FOLDER)
+    MEDIA_PATH = os.path.join(BASE_DIR, "media")
+    # Delete folder
+    if os.path.exists(path=FINAL_PATH):
+        shutil.rmtree(FINAL_PATH)
+    # Create folder
+    os.mkdir(FINAL_PATH)
+    # Init sub-folders
+    internship_folder = os.path.join(FINAL_PATH, "internship")
+    placement_folder = os.path.join(FINAL_PATH, "placement")
+    hackathon_folder = os.path.join(FINAL_PATH, "hackathon")
+    course_folder = os.path.join(FINAL_PATH, "course")
+    other_docs_folder = os.path.join(FINAL_PATH, "other_docs")
+    # Create sub-folders
+    os.mkdir(internship_folder)
+    os.mkdir(placement_folder)
+    os.mkdir(hackathon_folder)
+    os.mkdir(course_folder)
+    os.mkdir(other_docs_folder)
+
+    # Iterate
+    for user in users:
+        user_folder_name = f'{user.get_full_name().replace(" ", "_")}_{user.personal_profile.roll_no}'
+
+        # Create folder user
+        # Build path for different type
+        user_folder_path__internship = os.path.join(internship_folder, user_folder_name)
+        user_folder_path__placement = os.path.join(placement_folder, user_folder_name)
+        user_folder_path__hackathon = os.path.join(hackathon_folder, user_folder_name)
+        user_folder_path__course = os.path.join(course_folder, user_folder_name)
+        user_folder_path__docs = os.path.join(other_docs_folder, user_folder_name)
+
+        # Objects
+        internships = user.job_profile.filter(type="internship")
+        placements = user.job_profile.filter(type="placement")
+        hackathons = user.hackathon_profile.all()
+        courses = user.online_courses_profile.all()
+        docs = user.other_documents.all()
+
+        # Save files
+        if len(internships) > 0:
+            os.mkdir(user_folder_path__internship)
+            for internship in internships:
+                shutil.copy(os.path.join(MEDIA_PATH, internship.document),
+                            os.path.join(user_folder_path__internship, generate_filename_for_internship(internship)))
+
+        if len(placements) > 0:
+            os.mkdir(user_folder_path__placement)
+            for placement in placements:
+                shutil.copy(os.path.join(MEDIA_PATH, placement.document),
+                            os.path.join(user_folder_path__placement, generate_filename_for_placement(placement)))
+
+        if len(hackathons) > 0:
+            os.mkdir(user_folder_path__hackathon)
+            for hackathon in hackathons:
+                shutil.copy(os.path.join(MEDIA_PATH, hackathon.document),
+                            os.path.join(user_folder_path__hackathon, generate_filename_for_hackathon(hackathon)))
+
+        if len(courses) > 0:
+            os.mkdir(user_folder_path__course)
+            for course in courses:
+                shutil.copy(os.path.join(MEDIA_PATH, course.document),
+                            os.path.join(user_folder_path__course, generate_filename_for_course(course)))
+
+        if len(docs) > 0:
+            os.mkdir(user_folder_path__docs)
+            for doc in docs:
+                shutil.copy(os.path.join(MEDIA_PATH, doc.document),
+                            os.path.join(user_folder_path__docs, generate_filename_for_docs(doc)))
+
+    compressedFilePath = os.path.join(os.path.join(BASE_DIR, "reports"), TMP_FOLDER)
+    shutil.make_archive(compressedFilePath, "zip", FINAL_PATH, '.')
+    # final_file = open(compressedFilePath+".zip", "rb")
+    shutil.rmtree(FINAL_PATH)
+    # return FileResponse(final_file, as_attachment=True, filename="report.zip")
+    return redirect(f"/report/download/?source={TMP_FOLDER}.zip&key={key}")
+
 def download_backup(request):
     key = request.GET["key"]
     if key != SECURITY_KEY_REPORT:
