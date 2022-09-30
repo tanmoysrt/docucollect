@@ -562,7 +562,7 @@ def generate_report_v2(request):
         if len(internships) > 0:
             os.mkdir(user_folder_path__internship)
             for internship in internships:
-                internships_dataframe.loc[len(internships_dataframe.index)]  = [user.personal_profile.get_year_display(), user.personal_profile.roll_no, user.get_full_name(), user.email, user.personal_profile.phone_no, internship.company, internship.duration_months, f"{internship.get_month_display()} {internship.year}"]
+                internships_dataframe  = internships_dataframe.append([user.personal_profile.get_year_display(), user.personal_profile.roll_no, user.get_full_name(), user.email, user.personal_profile.phone_no, internship.company, internship.duration_months, f"{internship.get_month_display()} {internship.year}"])
                 shutil.copy(os.path.join(MEDIA_PATH, internship.document),
                             os.path.join(user_folder_path__internship, generate_filename_for_internship(internship)))
 
@@ -570,38 +570,38 @@ def generate_report_v2(request):
         if len(placements) > 0:
             os.mkdir(user_folder_path__placement)
             for placement in placements:
-                placement_dataframe.loc[len(placement_dataframe.index)]  = [user.personal_profile.get_year_display(), user.personal_profile.roll_no, user.get_full_name(), user.email, user.personal_profile.phone_no, placement.company, f"{placement.get_month_display()} {placement.year}"]
+                placement_dataframe  = placement_dataframe.append([user.personal_profile.get_year_display(), user.personal_profile.roll_no, user.get_full_name(), user.email, user.personal_profile.phone_no, placement.company, f"{placement.get_month_display()} {placement.year}"])
                 shutil.copy(os.path.join(MEDIA_PATH, placement.document),
                             os.path.join(user_folder_path__placement, generate_filename_for_placement(placement)))
 
         if len(hackathons) > 0:
             os.mkdir(user_folder_path__hackathon)
             for hackathon in hackathons:
-                hackathon_dataframe.loc[len(hackathon_dataframe.index)]  = [user.personal_profile.get_year_display(), user.personal_profile.roll_no, user.get_full_name(), user.email, user.personal_profile.phone_no, hackathon.title, hackathon.organizer, hackathon.get_certificate_type_display(), f"{hackathon.get_month_display()} {hackathon.year}"]
+                hackathon_dataframe  = hackathon_dataframe.append([user.personal_profile.get_year_display(), user.personal_profile.roll_no, user.get_full_name(), user.email, user.personal_profile.phone_no, hackathon.title, hackathon.organizer, hackathon.get_certificate_type_display(), f"{hackathon.get_month_display()} {hackathon.year}"])
                 shutil.copy(os.path.join(MEDIA_PATH, hackathon.document),
                             os.path.join(user_folder_path__hackathon, generate_filename_for_hackathon(hackathon)))
 
         if len(courses) > 0:
             os.mkdir(user_folder_path__course)
             for course in courses:
-                course_dataframe.loc[len(course_dataframe.index)] = [user.personal_profile.get_year_display(),
+                course_dataframe = course_dataframe.append([user.personal_profile.get_year_display(),
                                                                            user.personal_profile.roll_no,
                                                                            user.get_full_name(), user.email,
                                                                            user.personal_profile.phone_no,
                                                                            course.title, course.issued_by,
                                                                            course.description,
-                                                                           f"{course.year}"]
+                                                                           f"{course.year}"])
                 shutil.copy(os.path.join(MEDIA_PATH, course.document),
                             os.path.join(user_folder_path__course, generate_filename_for_course(course)))
 
         if len(docs) > 0:
             os.mkdir(user_folder_path__docs)
             for doc in docs:
-                other_docs_dataframe.loc[len(other_docs_dataframe.index)] = [user.personal_profile.get_year_display(),
+                other_docs_dataframe = other_docs_dataframe.append([user.personal_profile.get_year_display(),
                                                                            user.personal_profile.roll_no,
                                                                            user.get_full_name(), user.email,
                                                                            user.personal_profile.phone_no,
-                                                                           doc.title, doc.description]
+                                                                           doc.title, doc.description])
                 shutil.copy(os.path.join(MEDIA_PATH, doc.document),
                             os.path.join(user_folder_path__docs, generate_filename_for_docs(doc)))
 
