@@ -1,0 +1,92 @@
+{% extends "studentportal/base.html" %}
+{% load static %}
+
+{% block body %}
+    <div class="container py-4 px-3">
+        <h5>Hi ! {{ request.user.get_full_name }}</h5>
+        {#   User Profile     #}
+        <div class="accordion my-3">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Click to see/edit profile
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne">
+              <div class="accordion-body">
+                  <div class="mb-0 row">
+                    <label for="staticEmail" class="col-4 col-form-label">Name</label>
+                    <div class="col-8">
+                      <input type="text" readonly class="form-control-plaintext" value="{{ name }}">
+                    </div>
+                  </div>
+                  <div class="mb-0 row">
+                    <label for="staticEmail" class="col-4 col-form-label">Email</label>
+                    <div class="col-8">
+                      <input type="text" readonly class="form-control-plaintext" value="{{ email }}">
+                    </div>
+                  </div>
+                  <div class="mb-0 row">
+                    <label for="staticEmail" class="col-4 col-form-label">Phone No</label>
+                    <div class="col-8">
+                      <input type="text" readonly class="form-control-plaintext" value="{{ phone_no }}">
+                    </div>
+                  </div>
+                  <div class="mb-0 row">
+                    <label for="staticEmail" class="col-4 col-form-label">Roll No</label>
+                    <div class="col-8">
+                      <input type="text" readonly class="form-control-plaintext" value="{{ roll_no }}">
+                    </div>
+                  </div>
+                  <div class="mb-0 row">
+                    <label for="staticEmail" class="col-4 col-form-label">Year</label>
+                    <div class="col-8">
+                      <input type="text" readonly class="form-control-plaintext" value="{{ year }}">
+                    </div>
+                  </div>
+                  <div class="mb-3 row">
+                    <label for="staticEmail" class="col-4 col-form-label">Graduation Year</label>
+                    <div class="col-6">
+                      <input type="text" readonly class="form-control-plaintext" value="{{ graduation_year }}">
+                    </div>
+                  </div>
+                  <a href="{% url "student_profile_page" %}"><button class="btn btn-dark w-100">Edit Profile</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {#   Blocks  #}
+        <div class="row justify-content-evenly mb-3">
+            <div class="optioncard">
+                <div class="imgs">
+                    <img src="{% static "studentportal/image/internship.png" %}" alt="Internship">
+                </div>
+                <p>Internships</p>
+                <a href="{% url "student_internship_list_page" %}"  class="btn btn-primary w-100">Manage Now</a>
+            </div>
+            <div class="optioncard">
+                <div class="imgs">
+                    <img src="{% static "studentportal/image/placement.png" %}" alt="Placement">
+                </div>
+                <p>Placement</p>
+                <a href="{% url "student_placement_list_page" %}" class="btn btn-primary w-100">Manage Now</a>
+            </div>
+        </div>
+        <div class="row justify-content-evenly mb-3">
+            <div class="optioncard">
+                <div class="imgs">
+                    <img src="{% static "studentportal/image/hackathon.png" %}" alt="Hackathon">
+                </div>
+                <p>Hackathon</p>
+                <a href="{% url "student_hackathon_list_page" %}"  class="btn btn-primary w-100">Manage Now</a>
+            </div>
+            <div class="optioncard">
+                <div class="imgs">
+                    <img src="{% static "studentportal/image/courses.png" %}" alt="Online Courses">
+                </div>
+                <p>Courses</p>
+                <a href="{% url "student_online_course_list_page" %}"  class="btn btn-primary w-100">Manage Now</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

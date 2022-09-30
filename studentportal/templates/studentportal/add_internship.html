@@ -1,0 +1,42 @@
+{% extends "studentportal/base.html" %}
+
+{% block body %}
+     <div class="container py-3 px-3">
+         <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label" for="company">Company Name</label>
+                <input class="form-control" type="text" name="company" id="company" required>
+            </div>
+             <div class="mb-3">
+                <label class="form-label" for="month">Month</label>
+                <select name="month" id="month" class="form-control" required>
+                    <option disabled selected>Select Month</option>
+                    {% for month in months %}
+                        <option value="{{month.0 }}">{{ month.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="year">Year</label>
+                <input class="form-control" type="number" name="year" id="year" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="duration">Duration (in months)</label>
+                <input class="form-control" type="number" name="duration" id="duration" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="document">Supported Document</label>
+                <input class="form-control" type="file" name="document" id="document" accept="application/pdf" required>
+                <div class="alert alert-info">
+                    <ul>
+                        <li>If PDF Size is more than 50MB, Please compress that with this tool : <a href="https://www.ilovepdf.com/compress_pdf">https://www.ilovepdf.com/compress_pdf</a></li>
+                        <li>If you have multiple pdf, please merge that with this tool : <a href="https://www.ilovepdf.com/merge_pdf">https://www.ilovepdf.com/merge_pdf</a></li>
+                    </ul>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-dark w-100 mt-2">Submit details</button>
+        </form>
+     </div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "studentportal/base.html" %}
+
+{% block body %}
+    <div class="container py-3 px-3">
+        <h2 class="mb-4 text-center mt-4">Login Yourself</h2>
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" class="form-control"  name="email" id="email" required>
+                <div  class="form-text">
+                  Kindly enter your registered e-mail id
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="password" required>
+            </div>
+            <a href="{% url "student_forget_password_page" %}"><button type="button" class="btn btn-link w-100 mb-1 text-end">Forget Password</button></a>
+            <button type="submit" class="btn btn-dark w-100 my-1">Login Now</button>
+            <a href="{% url "student_register_page" %}"><button type="button" class="btn btn-outline-dark w-100 my-1">Create new account</button></a>
+        </form>
+    </div>
+{% endblock %}

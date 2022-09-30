@@ -1,0 +1,8 @@
+venv
+venv/
+
+db.sqlite3
+reports
+reports/
+media
+media/

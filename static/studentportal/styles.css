@@ -1,0 +1,80 @@
+*{
+    box-sizing: border-box;
+}
+h1, h2, h3, h4, h5, h6, a, p{
+    font-family: 'Poppins', sans-serif;
+}
+
+.responsive-wrapper{
+    width: 30vw;
+    align-self: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .responsive-wrapper {
+    width: 100vw;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.optioncard{
+    width: 45%;
+    max-width: 190px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid grey;
+    padding: 10px;
+    border-radius: 6px;
+    position: relative;
+}
+
+.optioncard .imgs{
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+.optioncard img{
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+.optioncard p{
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.optioncard a{
+
+}
+
+.card-data{
+    border: 1px solid grey;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.card-data p{
+    margin: 0;
+    padding: 0;
+}
