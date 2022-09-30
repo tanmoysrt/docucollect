@@ -14,8 +14,9 @@ from django.urls import reverse
 
 from documentCollector.settings import BASE_DIR, SECURITY_KEY_REPORT
 from studentportal import models
-from studentportal.utils import send_forget_password_mail, generate_filename_for_course,\
-    generate_filename_for_hackathon, generate_filename_for_internship, generate_filename_for_placement
+from studentportal.utils import send_forget_password_mail, generate_filename_for_course, \
+    generate_filename_for_hackathon, generate_filename_for_internship, generate_filename_for_placement, \
+    generate_filename_for_docs
 
 
 def login_page(request):
@@ -198,6 +199,14 @@ def online_course_list_page(request):
     return render(request, "studentportal/onlinecourse_list.html", data)
 
 
+@login_required(login_url='/login')
+def other_docs_list_page(request):
+    data = {
+        "title": "Other Documents Record",
+        "docs": models.OtherDocuments.objects.all()
+    }
+    return render(request, "studentportal/otherdocs_list.html", data)
+
 def generate_random_filename(filename):
     extension = str(filename).split(".")[-1]
     random_name = str(random.randint(1111111111111111, 9999999999999999))
@@ -330,6 +339,29 @@ def add_online_course_page(request):
     # title, issued_by, description, year, document
     return render(request, "studentportal/add_online_course.html", data)
 
+@login_required(login_url='/login')
+def add_other_docs_page(request):
+    data = {
+        "title": "Add Other Documents",
+    }
+
+    if request.method == "POST" and request.FILES and request.FILES["document"]:
+        file = request.FILES["document"]
+        title = request.POST["title"]
+        description = request.POST["description"]
+
+        filename = upload_file(file)
+
+        models.OtherDocuments.objects.create(
+            document=filename,
+            title=title,
+            description=description,
+            user_id=request.user.id
+        )
+        return redirect(reverse("student_other_docs_list_page"))
+    # title, description, document
+    return render(request, "studentportal/add_other_docs.html", data)
+
 
 @login_required(login_url='/login')
 def download_file(request):
@@ -379,6 +411,14 @@ def delete_record(request):
             pass
         tmp.delete()
         return redirect(reverse("student_online_course_list_page"))
+    elif record_type == "other":
+        tmp = models.OtherDocuments.objects.get(id=record_id)
+        try:
+            os.remove(os.path.join(os.path.join(BASE_DIR, "media"), tmp.document))
+        except:
+            pass
+        tmp.delete()
+        return redirect(reverse("student_other_docs_list_page"))
     return HttpResponse("Cant delete", status=400)
 
 
@@ -416,11 +456,14 @@ def generate_report(request):
         user_folder_path__placement = os.path.join(user_folder_path, "placement")
         user_folder_path__hackathon = os.path.join(user_folder_path, "hackathon")
         user_folder_path__course = os.path.join(user_folder_path, "course")
+        user_folder_path__docs = os.path.join(user_folder_path, "docs")
         # Objects
         internships = user.job_profile.filter(type="internship")
         placements = user.job_profile.filter(type="placement")
         hackathons = user.hackathon_profile.all()
         courses = user.online_courses_profile.all()
+        docs = user.other_documents.all()
+        
         # Save files
         if len(internships) > 0:
             os.mkdir(user_folder_path__internship)
@@ -443,6 +486,12 @@ def generate_report(request):
             for course in courses:
                 shutil.copy(os.path.join(MEDIA_PATH, course.document),
                             os.path.join(user_folder_path__course, generate_filename_for_course(course)))
+
+        if len(docs) > 0:
+            os.mkdir(user_folder_path__docs)
+            for doc in docs:
+                shutil.copy(os.path.join(MEDIA_PATH, doc.document),
+                            os.path.join(user_folder_path__docs, generate_filename_for_docs(doc)))
 
     compressedFilePath = os.path.join(os.path.join(BASE_DIR, "reports"), TMP_FOLDER)
     shutil.make_archive(compressedFilePath, "zip", FINAL_PATH, '.')

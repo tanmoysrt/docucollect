@@ -13,11 +13,14 @@ urlpatterns = [
     path("list/placement", views.placement_list_page, name="student_placement_list_page"),
     path("list/hackathon", views.hackathon_list_page, name="student_hackathon_list_page"),
     path("list/course", views.online_course_list_page, name="student_online_course_list_page"),
+    path("list/docs", views.other_docs_list_page, name="student_other_docs_list_page"),
     # Add pages
     path("add/internship", views.add_internship_page, name="student_internship_add_page"),
     path("add/placement", views.add_placement_page, name="student_placement_add_page"),
     path("add/hackathon", views.add_hackathon_page, name="student_hackathon_add_page"),
     path("add/course", views.add_online_course_page, name="student_online_course_add_page"),
+    path("add/docs", views.add_other_docs_page, name="student_other_docs_add_page"),
+    
 
     path("download/", views.download_file),
     path("delete/", views.delete_record),

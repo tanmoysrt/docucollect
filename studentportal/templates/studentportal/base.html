@@ -20,9 +20,7 @@
     {% endif %} </title>
   </head>
   <body class="d-flex flex-column justify-content-center">
-
-
-{#  Main content #}
+  {#  Main content #}
       <div class="responsive-wrapper">
         <nav class="navbar bg-light navbar-light  {% if dontshownav %} d-none {% endif %} ">
           <div class="container-fluid">
@@ -61,12 +59,18 @@
                   <li class="nav-item">
                     <a class="nav-link" href="{% url "student_placement_add_page" %}">Add Placement</a>
                   </li>
-                    <li class="nav-item">
+                  <li class="nav-item">
                     <a class="nav-link" href="{% url "student_online_course_list_page" %}">All Courses</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{% url "student_online_course_add_page" %}">Add Course</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url "student_other_docs_list_page" %}">All Documents</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url "student_other_docs_add_page" %}">Add Document</a>
+                  </li>                 
                 </ul>
               </div>
             </div>

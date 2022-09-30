@@ -114,3 +114,14 @@ class OnlineCoursesProfile(models.Model):
 
     def __str__(self):
         return str(self.user.get_full_name()) + " - " + self.title + " - " + self.issued_by
+
+class OtherDocuments(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(StudentAuthProfile, on_delete=models.CASCADE, related_name="other_documents")
+    title = models.TextField(default="")
+    description = models.TextField(default="")
+    document = models.TextField(null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.user.get_full_name()) + " - " + self.title + " - " + self.issued_by

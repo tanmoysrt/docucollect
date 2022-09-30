@@ -14,11 +14,16 @@ def generate_filename_for_placement(record: models.JobProfile):
 
 
 def generate_filename_for_hackathon(record: models.HackathonProfile):
-    return f"{record.title}_{record.organizer}_{record.get_certificate_type_display()}_{record.year}.pdf".replace(" ", "_")
+    return f"{record.title}_{record.organizer}_{record.get_certificate_type_display()}_{record.year}.pdf".replace(" ",
+                                                                                                                  "_")
 
 
 def generate_filename_for_course(record: models.OnlineCoursesProfile):
     return f"{record.title}_{record.issued_by}_{record.year}.pdf".replace(" ", "_")
+
+
+def generate_filename_for_docs(record: models.OtherDocuments):
+    return f"{record.title}.pdf".replace(" ", "_")
 
 
 def send_forget_password_mail(name, email, password):
