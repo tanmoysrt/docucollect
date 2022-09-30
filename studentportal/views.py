@@ -1,3 +1,4 @@
+from datetime import datetime
 import random
 import string
 import os
@@ -443,7 +444,9 @@ def download_backup(request):
     if source == "-1" or source == "":
         return HttpResponse("File not found or you have not accesss", status=404)
     file = open("backup/" + source, "rb")
-    return FileResponse(file, as_attachment=True, filename="report.zip")
+    time = datetime.now()
+    date = time.strftime("%d-%m-%Y")
+    return FileResponse(file, as_attachment=True, filename=f"backup_{date}.zip")
 
 
 def generate_backup(request):
