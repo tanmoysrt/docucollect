@@ -604,7 +604,7 @@ def generate_report_v2(request):
                     "Organized by": hackathon.organizer,
                     "Rank": hackathon.get_certificate_type_display(),
                     "Received on":f"{hackathon.get_month_display()} {hackathon.year}"
-                })
+                }, ignore_index=True)
                 shutil.copy(os.path.join(MEDIA_PATH, hackathon.document),
                             os.path.join(user_folder_path__hackathon, generate_filename_for_hackathon(hackathon)))
 
@@ -621,7 +621,7 @@ def generate_report_v2(request):
                     "Issued By": course.issued_by,
                     "Description": course.description,
                     "Received on": f"{course.year}"
-                })
+                }, ignore_index=True)
                 shutil.copy(os.path.join(MEDIA_PATH, course.document),
                             os.path.join(user_folder_path__course, generate_filename_for_course(course)))
 
@@ -635,7 +635,7 @@ def generate_report_v2(request):
                     "E-mail Id": user.email,
                     "Phone No": user.personal_profile.phone_no,
                     "Title": doc.title,
-                    "Description": doc.description})
+                    "Description": doc.description}, ignore_index=True)
                 shutil.copy(os.path.join(MEDIA_PATH, doc.document),
                             os.path.join(user_folder_path__docs, generate_filename_for_docs(doc)))
 
@@ -645,11 +645,11 @@ def generate_report_v2(request):
     # Generate python excel
     report_excel_path = os.path.join(FINAL_PATH, "report.xlsx")
     writer = pd.ExcelWriter(report_excel_path, engine='xlsxwriter')
-    internships_dataframe.to_excel(writer, sheet_name="Internship")
-    placement_dataframe.to_excel(writer, sheet_name="Placement")
-    hackathon_dataframe.to_excel(writer, sheet_name="Hackathon")
-    course_dataframe.to_excel(writer, sheet_name="Course")
-    other_docs_dataframe.to_excel(writer, sheet_name="Other Docs")
+    internships_dataframe.to_excel(writer, sheet_name="Internship", index=False)
+    placement_dataframe.to_excel(writer, sheet_name="Placement", index=False)
+    hackathon_dataframe.to_excel(writer, sheet_name="Hackathon", index=False)
+    course_dataframe.to_excel(writer, sheet_name="Course", index=False)
+    other_docs_dataframe.to_excel(writer, sheet_name="Other Docs", index=False)
     writer.save()
 
     compressedFilePath = os.path.join(os.path.join(BASE_DIR, "reports"), TMP_FOLDER)
