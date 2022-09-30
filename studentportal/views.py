@@ -605,10 +605,8 @@ def generate_report_v2(request):
                 shutil.copy(os.path.join(MEDIA_PATH, doc.document),
                             os.path.join(user_folder_path__docs, generate_filename_for_docs(doc)))
 
-    compressedFilePath = os.path.join(os.path.join(BASE_DIR, "reports"), TMP_FOLDER)
-    shutil.make_archive(compressedFilePath, "zip", FINAL_PATH, '.')
-    # final_file = open(compressedFilePath+".zip", "rb")
-    shutil.rmtree(FINAL_PATH)
+
+
 
     # Generate python excel
     report_excel_path = os.path.join(FINAL_PATH, "report.xlsx")
@@ -619,6 +617,12 @@ def generate_report_v2(request):
     course_dataframe.to_excel(writer, sheet_name="Course")
     other_docs_dataframe.to_excel(writer, sheet_name="Other Docs")
     writer.save()
+
+    compressedFilePath = os.path.join(os.path.join(BASE_DIR, "reports"), TMP_FOLDER)
+    shutil.make_archive(compressedFilePath, "zip", FINAL_PATH, '.')
+    # final_file = open(compressedFilePath+".zip", "rb")
+
+    shutil.rmtree(FINAL_PATH)
 
     return redirect(f"/report/download/?source={TMP_FOLDER}.zip&key={key}")
 
