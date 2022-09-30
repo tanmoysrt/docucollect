@@ -349,18 +349,34 @@ def delete_record(request):
         return HttpResponse("Cant delete", status=400)
     if record_type == "internship":
         tmp = models.JobProfile.objects.get(type="internship", id=record_id)
+        try:
+            os.remove(os.path.join(os.path.join(BASE_DIR, "media"), tmp.document))
+        except:
+            pass
         tmp.delete()
         return redirect(reverse("student_internship_list_page"))
     elif record_type == "placement":
         tmp = models.JobProfile.objects.get(type="placement", id=record_id)
+        try:
+            os.remove(os.path.join(os.path.join(BASE_DIR, "media"), tmp.document))
+        except:
+            pass
         tmp.delete()
         return redirect(reverse("student_placement_list_page"))
     elif record_type == "hackathon":
         tmp = models.HackathonProfile.objects.get(id=record_id)
+        try:
+            os.remove(os.path.join(os.path.join(BASE_DIR, "media"), tmp.document))
+        except:
+            pass
         tmp.delete()
         return redirect(reverse("student_hackathon_list_page"))
     elif record_type == "course":
         tmp = models.OnlineCoursesProfile.objects.get(id=record_id)
+        try:
+            os.remove(os.path.join(os.path.join(BASE_DIR, "media"), tmp.document))
+        except:
+            pass
         tmp.delete()
         return redirect(reverse("student_online_course_list_page"))
     return HttpResponse("Cant delete", status=400)
