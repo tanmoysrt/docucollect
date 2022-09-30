@@ -17,13 +17,8 @@
                  <textarea class="form-control" type="text" name="description" id="description" required></textarea>
             </div>
              <div class="mb-3">
-                <label class="form-label" for="month">Month</label>
-                <select name="month" id="month" class="form-control" required>
-                    <option disabled selected>Select Month</option>
-                    {% for month in months %}
-                        <option value="{{month.0 }}">{{ month.1 }}</option>
-                    {% endfor %}
-                </select>
+                <label class="form-label" for="year">Year</label>
+                 <input class="form-control" type="number" name="year" id="year" required></input>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="document">Supported Document</label>
