@@ -124,4 +124,4 @@ class OtherDocuments(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.user.get_full_name()) + " - " + self.title + " - " + self.issued_by
+        return str(self.user.get_full_name()) + " - " + self.title
